@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Faby lanches",
+  "description": "Cardápio digital oficial da Faby Lanches. Hambúrgueres artesanais, cuscuz recheado, sopas e sucos com pedidos práticos e rápidos via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

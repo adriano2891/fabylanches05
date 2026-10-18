@@ -1,0 +1,946 @@
+{
+  "config": {
+    "name": "Faby Lanches",
+    "slogan": "Sabor que conquista!",
+    "tagline": "Bateu a fome? Vem de Faby Lanches!",
+    "whatsappNumber": "5584991537520",
+    "logoUrl": "/logo_oficial.png",
+    "pickupAddress": "Av. Principal, Centro, Morroró - RN",
+    "deliveryEnabled": true,
+    "pickupEnabled": true,
+    "acceptOrdersWhenClosed": true,
+    "temporaryPause": false,
+    "temporaryPauseMessage": "Estamos em manutenção no momento. Voltamos em instantes!",
+    "deliveryTimeEstimate": "40 a 60 min",
+    "pickupTimeEstimate": "20 a 30 min",
+    "paymentMethods": [
+      {
+        "id": "pix",
+        "name": "Pix",
+        "enabled": true,
+        "type": "pix",
+        "details": "Chave fornecida no WhatsApp"
+      },
+      {
+        "id": "cartao_credito",
+        "name": "Cartão de Crédito",
+        "enabled": true,
+        "type": "cartao_credito",
+        "details": "Levamos a maquininha até você"
+      },
+      {
+        "id": "cartao_debito",
+        "name": "Cartão de Débito",
+        "enabled": true,
+        "type": "cartao_debito",
+        "details": "Levamos a maquininha até você"
+      },
+      {
+        "id": "dinheiro",
+        "name": "Dinheiro",
+        "enabled": true,
+        "type": "dinheiro",
+        "details": "Informe se precisa de troco"
+      }
+    ],
+    "coverageAreas": [
+      {
+        "id": "1",
+        "name": "Ponta Negra",
+        "isDelivered": true
+      },
+      {
+        "id": "2",
+        "name": "Capim Macio",
+        "isDelivered": true
+      },
+      {
+        "id": "3",
+        "name": "Neópolis",
+        "isDelivered": true
+      },
+      {
+        "id": "4",
+        "name": "Candelária",
+        "isDelivered": true
+      },
+      {
+        "id": "5",
+        "name": "Lagoa Nova",
+        "isDelivered": true
+      },
+      {
+        "id": "6",
+        "name": "Tirol",
+        "isDelivered": true
+      },
+      {
+        "id": "7",
+        "name": "Petrópolis",
+        "isDelivered": true
+      },
+      {
+        "id": "8",
+        "name": "Zona Rural Afastada (Exemplo)",
+        "isDelivered": false
+      }
+    ],
+    "businessHours": [
+      {
+        "dayOfWeek": 0,
+        "dayName": "Domingo",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      },
+      {
+        "dayOfWeek": 1,
+        "dayName": "Segunda-feira",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      },
+      {
+        "dayOfWeek": 2,
+        "dayName": "Terça-feira",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      },
+      {
+        "dayOfWeek": 3,
+        "dayName": "Quarta-feira",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      },
+      {
+        "dayOfWeek": 4,
+        "dayName": "Quinta-feira",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      },
+      {
+        "dayOfWeek": 5,
+        "dayName": "Sexta-feira",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      },
+      {
+        "dayOfWeek": 6,
+        "dayName": "Sábado",
+        "enabled": true,
+        "periods": [
+          {
+            "open": "18:00",
+            "close": "23:59"
+          }
+        ]
+      }
+    ],
+    "specialClosures": [],
+    "experimentProductIds": [
+      "lanche-completo-faby",
+      "lanche-x-tudo"
+    ],
+    "customCategories": [
+      {
+        "id": "porcoes",
+        "name": "Porções"
+      },
+      {
+        "id": "sobremesas-especiais",
+        "name": "Sobremesas Especiais"
+      }
+    ],
+    "version": 2,
+    "updatedAt": 1792324261364
+  },
+  "products": [
+    {
+      "id": "lanche-completo-faby",
+      "name": "Completo da Faby",
+      "categoryId": "lanches",
+      "price": 1000,
+      "description": "Pão bola, hambúrguer, ovo, mussarela, presunto, alface, tomate, cebola e molho especial.",
+      "ingredients": [
+        "Pão bola",
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 1,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-hamburguer",
+        "add-calabresa",
+        "add-frango"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792324261364,
+      "isDrink": false
+    },
+    {
+      "id": "lanche-x-frango",
+      "name": "X-Frango",
+      "categoryId": "lanches",
+      "price": 1400,
+      "description": "Pão bola, hambúrguer, ovo, mussarela, frango, presunto, alface, tomate, cebola e molho especial.",
+      "ingredients": [
+        "Pão bola",
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Frango",
+        "Presunto",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Frango",
+        "Presunto",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 2,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-hamburguer",
+        "add-calabresa",
+        "add-frango"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "lanche-x-calabresa",
+      "name": "X-Calabresa",
+      "categoryId": "lanches",
+      "price": 1200,
+      "description": "Pão bola, hambúrguer, ovo, mussarela, presunto, calabresa, alface, tomate, cebola e molho especial.",
+      "ingredients": [
+        "Pão bola",
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Calabresa",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Calabresa",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 3,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-hamburguer",
+        "add-calabresa",
+        "add-frango"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "lanche-x-bacon",
+      "name": "X-Bacon",
+      "categoryId": "lanches",
+      "price": 1500,
+      "description": "Pão bola, hambúrguer, ovo, mussarela, bacon, presunto, alface, tomate, cebola e molho especial.",
+      "ingredients": [
+        "Pão bola",
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Bacon",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Bacon",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 4,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-hamburguer",
+        "add-calabresa",
+        "add-frango"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792315794139,
+      "isDrink": false
+    },
+    {
+      "id": "lanche-x-tudo",
+      "name": "X-Tudo",
+      "categoryId": "lanches",
+      "price": 1600,
+      "description": "Pão bola, hambúrguer, ovo, mussarela, presunto, calabresa, salsicha, frango desfiado, bacon, alface, tomate, cebola e molho especial.",
+      "ingredients": [
+        "Pão bola",
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Calabresa",
+        "Salsicha",
+        "Frango desfiado",
+        "Bacon",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Hambúrguer",
+        "Ovo",
+        "Mussarela",
+        "Presunto",
+        "Calabresa",
+        "Salsicha",
+        "Frango desfiado",
+        "Bacon",
+        "Alface",
+        "Tomate",
+        "Cebola",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 5,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-hamburguer",
+        "add-calabresa",
+        "add-frango"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "lanche-cachorro-quente",
+      "name": "Cachorro-quente",
+      "categoryId": "lanches",
+      "price": 1000,
+      "description": "Pão bola, salsicha, carne moída, vinagrete e molho especial.",
+      "ingredients": [
+        "Pão bola",
+        "Salsicha",
+        "Carne moída",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Salsicha",
+        "Carne moída",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 6,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-calabresa"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "prod-mvd3amfmpwlc",
+      "name": "X-Picanha Especial",
+      "categoryId": "lanches",
+      "price": 2200,
+      "description": "Pão brioche selado na manteiga, hambúrguer artesanal de picanha 160g, queijo mussarela derretido, alface, tomate, cebola caramelizada e molho especial da casa.",
+      "photoUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600",
+      "ingredients": [
+        "Pão brioche",
+        "Hambúrguer de picanha 160g",
+        "Mussarela derretida",
+        "Alface",
+        "Tomate",
+        "Cebola caramelizada",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Hambúrguer de picanha 160g",
+        "Mussarela derretida",
+        "Alface",
+        "Tomate",
+        "Cebola caramelizada",
+        "Molho especial"
+      ],
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon",
+        "add-hamburguer",
+        "add-calabresa",
+        "add-frango"
+      ],
+      "available": true,
+      "order": 7,
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "cuscuz-frango",
+      "name": "Cuscuz de Frango",
+      "categoryId": "cuscuz",
+      "price": 1400,
+      "description": "Cuscuz com frango desfiado, ovo, queijo coalho, vinagrete e molho especial.",
+      "ingredients": [
+        "Cuscuz",
+        "Frango desfiado",
+        "Ovo",
+        "Queijo coalho",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Frango desfiado",
+        "Ovo",
+        "Queijo coalho",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 10,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "cuscuz-calabresa",
+      "name": "Cuscuz de Calabresa",
+      "categoryId": "cuscuz",
+      "price": 1300,
+      "description": "Cuscuz com calabresa, ovo, queijo coalho, vinagrete e molho especial.",
+      "ingredients": [
+        "Cuscuz",
+        "Calabresa",
+        "Ovo",
+        "Queijo coalho",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Calabresa",
+        "Ovo",
+        "Queijo coalho",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 11,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "cuscuz-carne-moida",
+      "name": "Cuscuz de Carne Moída",
+      "categoryId": "cuscuz",
+      "price": 1200,
+      "description": "Cuscuz com carne bovina moída, ovo, queijo coalho, vinagrete e molho especial.",
+      "ingredients": [
+        "Cuscuz",
+        "Carne bovina moída",
+        "Ovo",
+        "Queijo coalho",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "removableIngredients": [
+        "Carne bovina moída",
+        "Ovo",
+        "Queijo coalho",
+        "Vinagrete",
+        "Molho especial"
+      ],
+      "available": true,
+      "order": 12,
+      "allowedAdditionalIds": [
+        "add-ovo",
+        "add-queijo",
+        "add-bacon"
+      ],
+      "photoUrl": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "sopa-canja",
+      "name": "Canja",
+      "categoryId": "sopas",
+      "price": 1000,
+      "description": "Canja quentinha e tradicional, feita com tempero especial da casa.",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 13,
+      "photoUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "sopa-tradicional",
+      "name": "Sopa",
+      "categoryId": "sopas",
+      "price": 1000,
+      "description": "Sopa nutritiva e reconfortante do dia.",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 14,
+      "photoUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-caja",
+      "name": "Suco ou Vitamina de Cajá",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Cajá).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 15,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Cajá",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-morango",
+      "name": "Suco ou Vitamina de Morango",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Morango).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 16,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Morango",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-manga",
+      "name": "Suco ou Vitamina de Manga",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Manga).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 17,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Manga",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-abacaxi",
+      "name": "Suco ou Vitamina de Abacaxi",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Abacaxi).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 18,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Abacaxi",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-graviola",
+      "name": "Suco ou Vitamina de Graviola",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Graviola).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 19,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Graviola",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-acerola",
+      "name": "Suco ou Vitamina de Acerola",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Acerola).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 20,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Acerola",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-goiaba",
+      "name": "Suco ou Vitamina de Goiaba",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Goiaba).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 21,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Goiaba",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-maracuja",
+      "name": "Suco ou Vitamina de Maracujá",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Maracujá).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 22,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Maracujá",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1577805947697-89e18249d767?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "id": "bebida-uva",
+      "name": "Suco ou Vitamina de Uva",
+      "categoryId": "bebidas",
+      "price": 0,
+      "description": "Feito com polpa natural da fruta selecionada (Uva).",
+      "ingredients": [],
+      "removableIngredients": [],
+      "available": true,
+      "order": 23,
+      "isDrink": true,
+      "drinkDetails": {
+        "flavor": "Uva",
+        "sizes": []
+      },
+      "photoUrl": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792292020016
+    },
+    {
+      "name": "Pudim de Leite Condensado Especial",
+      "categoryId": "sobremesas-especiais",
+      "price": 950,
+      "description": "Pudim caseiro cremoso com calda artesanal de caramelo",
+      "available": true,
+      "updatedAt": 1792320832932,
+      "id": "prod-mvdpjje8iqez",
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 23,
+      "photoUrl": "https://images.unsplash.com/photo-1517427294546-5aa121f68e8a?auto=format&fit=crop&w=600",
+      "isDrink": false
+    }
+  ],
+  "additionals": [
+    {
+      "id": "add-ovo",
+      "name": "Ovo frito",
+      "price": 200,
+      "maxQuantity": 3,
+      "active": true
+    },
+    {
+      "id": "add-queijo",
+      "name": "Queijo extra",
+      "price": 300,
+      "maxQuantity": 3,
+      "active": true
+    },
+    {
+      "id": "add-bacon",
+      "name": "Bacon crocante",
+      "price": 350,
+      "maxQuantity": 3,
+      "active": true
+    },
+    {
+      "id": "add-hamburguer",
+      "name": "Hambúrguer extra",
+      "price": 400,
+      "maxQuantity": 2,
+      "active": true
+    },
+    {
+      "id": "add-calabresa",
+      "name": "Calabresa fatiada",
+      "price": 300,
+      "maxQuantity": 2,
+      "active": true
+    },
+    {
+      "id": "add-frango",
+      "name": "Frango desfiado",
+      "price": 350,
+      "maxQuantity": 2,
+      "active": true
+    }
+  ],
+  "admins": [
+    {
+      "id": "admin-1",
+      "email": "admin@fabylanches.com",
+      "passwordHash": "f32f8e35f314e14404044707eb040a4b5a95ee0100dceccd8f44b88e024ae5becb82390fd3ff89aa29457aa80f3a4de54054be32d7cdb780c593bd5b226c6c12",
+      "passwordSalt": "66e7e7b58d2caf60cb226a661943d2a6",
+      "recoveryKey": "FABY-E28FFFA3",
+      "createdAt": "2026-10-17T07:30:14.829Z",
+      "lastLoginAt": "2026-10-18T11:50:53.773Z"
+    }
+  ],
+  "sessions": {
+    "46c49745e4380879a56b3505bf40b23debf676daf201d799d5ee8689f588eac8": {
+      "adminId": "admin-1",
+      "expiresAt": 1792828564288
+    },
+    "09cdc61def254a1d1f6072158ed049a98006936c2496c0d929f8325a54abc5e5": {
+      "adminId": "admin-1",
+      "expiresAt": 1792843231983
+    },
+    "81d3b5812d0f4621b60fd0fb5f58016ba8a75a771cd2add55391611be88329d5": {
+      "adminId": "admin-1",
+      "expiresAt": 1792881629526
+    },
+    "ef7ec6174832dad392fbdd88ca058946129900fcf64aaf72e4e8aafdf3ebb4a0": {
+      "adminId": "admin-1",
+      "expiresAt": 1797461072636
+    },
+    "e7472da3f2f7475a337df5028c97478c0923b574f0753bf7e13066ca0ff9986e": {
+      "adminId": "admin-1",
+      "expiresAt": 1797464111861
+    },
+    "35a732371144a34c364a926f01f7f9a9500c5bba5f597350b0fc87a3bac888d7": {
+      "adminId": "admin-1",
+      "expiresAt": 1797466294808
+    },
+    "d1e88723d532480964a0c9dd1af3ada1decf9d38bd9028f85e1d5105dfbc95fb": {
+      "adminId": "admin-1",
+      "expiresAt": 1797467014349
+    },
+    "0c6e59394eda30c6bf6d4f2efa1cceff20506d4b9ad5656ff8ec2f910a154542": {
+      "adminId": "admin-1",
+      "expiresAt": 1797467451299
+    },
+    "63e466148baaa0b8ba03b4b1f1a3ee706491b180f1164833c1c8aa2a3087fba7": {
+      "adminId": "admin-1",
+      "expiresAt": 1797467707889
+    },
+    "0519e3ce5331f9ef12ed7af863683384caeb7b4b4c0cc8d6e9be60a89234a86e": {
+      "adminId": "admin-1",
+      "expiresAt": 1797469340309
+    },
+    "2dc0d133d4ec07397cb254180b62b24119522acf0ceff876eab3c59da7433ab8": {
+      "adminId": "admin-1",
+      "expiresAt": 1797469556679
+    },
+    "d6e42ffa3505ec308a46b9cd636298aacf127c4833018768d31dd46e3d419ee0": {
+      "adminId": "admin-1",
+      "expiresAt": 1797469565915
+    },
+    "cfa9ee7eb1afb557db3e49700b42eac6ebf9898ced5900e9d8524363323fbd04": {
+      "adminId": "admin-1",
+      "expiresAt": 1797479810690
+    },
+    "0cdb58618eb193b3dd5ec58510141ed343768b23846f466a9cd2cb61a7b4e86a": {
+      "adminId": "admin-1",
+      "expiresAt": 1797479817214
+    },
+    "faby_admin_session_12345": {
+      "adminId": "admin-1",
+      "expiresAt": 1794888365847
+    },
+    "b5314aefb27c1e89983a4cb1efcd5954189945d80c1e52bd10c39962e529bdaa": {
+      "adminId": "admin-1",
+      "expiresAt": 1797480560132
+    },
+    "562bd6b7e90a3fd5a843e2d7bbcde3155926771cc55dd4961aa4558f6e4507c3": {
+      "adminId": "admin-1",
+      "expiresAt": 1797482814937
+    },
+    "417fc69cd83b354cd6199cd3e5c5942a8c413522fb470f125d48362f3c5d674c": {
+      "adminId": "admin-1",
+      "expiresAt": 1797494110250
+    },
+    "faby_admin_session_1792298814970": {
+      "adminId": "admin-1",
+      "expiresAt": 1794902170848
+    },
+    "82408b2476ffa2ddfe7d9e82ba46e2410eb2b3f4b1f4d230e4cc67868b966a7c": {
+      "adminId": "admin-1",
+      "expiresAt": 1797494793372
+    },
+    "1a894be5412a395a2fcf8db261e287dfeedf0d059a762f081cee70c93620e352": {
+      "adminId": "admin-1",
+      "expiresAt": 1797494822839
+    },
+    "4d85afd2c3d45bae7d4a93a6d019fbdf7732189baf694c5f5d53d290274de1df": {
+      "adminId": "admin-1",
+      "expiresAt": 1797499227531
+    },
+    "8bba147cb69a358db52c6f450c4f405790fd96308425ae349c017490db6b1d21": {
+      "adminId": "admin-1",
+      "expiresAt": 1797499693644
+    },
+    "b985f85f382c81d1f793ad2351d3fbb296fec40d1ea25df1086430e637c35dc9": {
+      "adminId": "admin-1",
+      "expiresAt": 1797499794086
+    },
+    "1e578dd357f8988a566d8c2274b896d84a4de3c54705a20cfd9d48268975476b": {
+      "adminId": "admin-1",
+      "expiresAt": 1797500609755
+    },
+    "c2c9440b7a079e4a8c5a01c1bce2fcb86a44ac8f4157019a51000b38142d2122": {
+      "adminId": "admin-1",
+      "expiresAt": 1797500920285
+    },
+    "876c20f958d1345f47dab45ee50a5e666215e8a732dfd1f184034db12955312b": {
+      "adminId": "admin-1",
+      "expiresAt": 1797501673213
+    },
+    "4195515b31c1310413cbacefd391ffc23785e574c99c3d5794bf5821b2555f5c": {
+      "adminId": "admin-1",
+      "expiresAt": 1797501679557
+    },
+    "7f3b439b26969bbd836004a22f3f5c99817f43f07814271ec11ea6dfebb38b22": {
+      "adminId": "admin-1",
+      "expiresAt": 1797504321570
+    },
+    "fed2d78a9d438d9eab90f21bf8bc537f01e8f032cc301d2dd03cb31afb4afcb1": {
+      "adminId": "admin-1",
+      "expiresAt": 1797504810893
+    },
+    "183c71ae67931c02804747a044b60f1bd86f9ecfac0cd092606db7182ab87936": {
+      "adminId": "admin-1",
+      "expiresAt": 1797508253773
+    }
+  }
+}

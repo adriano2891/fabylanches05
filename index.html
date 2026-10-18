@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="theme-color" content="#581c87" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="FabyLanches" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <title>Faby Lanches - Cardápio Digital & Pedidos WhatsApp</title>
+    <meta name="description" content="Cardápio digital oficial da Faby Lanches. Hambúrgueres artesanais, cuscuz recheado, sopas e sucos com pedidos práticos e rápidos via WhatsApp." />
+    <meta property="og:title" content="Faby Lanches - Cardápio Digital & Pedidos WhatsApp" />
+    <meta property="og:description" content="Cardápio digital oficial da Faby Lanches. Hambúrgueres artesanais, cuscuz recheado, sopas e sucos com pedidos práticos e rápidos via WhatsApp." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Preload Critical Logo Above the Fold -->
+    <link rel="preload" as="image" href="/logo_oficial_sm.webp" type="image/webp" media="(max-width: 640px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/logo_oficial.webp" type="image/webp" media="(min-width: 641px)" fetchpriority="high" />
+
+    <!-- Google Fonts Optimization: Preconnect & Non-blocking Load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Shrikhand&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Shrikhand&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Shrikhand&display=swap" />
+    </noscript>
+
+    <script>
+      (function() {
+        try {
+          var originalFetch = window.fetch;
+          var currentFetch = typeof originalFetch === 'function' ? originalFetch.bind(window) : originalFetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return currentFetch;
+            },
+            set: function(fn) {
+              currentFetch = typeof fn === 'function' ? fn : fn;
+            }
+          });
+        } catch (e) {}
+
+        // Suppress Vite HMR WebSocket errors in AI Studio iframe environment (HMR is disabled in AI Studio)
+        try {
+          var origConsoleError = console.error;
+          console.error = function() {
+            var first = arguments[0];
+            if (first && (first === '[vite]' || (typeof first === 'string' && first.indexOf('[vite]') !== -1))) {
+              var all = Array.prototype.slice.call(arguments).map(function(a) {
+                return (a && (a.message || a.stack || String(a))) || '';
+              }).join(' ');
+              if (
+                all.indexOf('WebSocket') !== -1 ||
+                all.indexOf('connection lost') !== -1 ||
+                all.indexOf('closed without opened') !== -1
+              ) {
+                return;
+              }
+            }
+            return origConsoleError.apply(console, arguments);
+          };
+        } catch (e) {}
+
+        window.addEventListener('error', function(event) {
+          var msg = (event && (event.message || (event.error && event.error.message))) || '';
+          var fn = (event && event.filename) || '';
+          if (
+            msg.indexOf('WebSocket') !== -1 ||
+            msg.indexOf('@vite/client') !== -1 ||
+            fn.indexOf('@vite/client') !== -1
+          ) {
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            if (event.preventDefault) event.preventDefault();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(event) {
+          var reason = event && event.reason ? (event.reason.message || String(event.reason)) : '';
+          if (reason.indexOf('WebSocket') !== -1 || reason.indexOf('@vite/client') !== -1) {
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            if (event.preventDefault) event.preventDefault();
+          }
+        }, true);
+
+        if (typeof window !== 'undefined' && window.WebSocket) {
+          try {
+            var OrigWebSocket = window.WebSocket;
+
+            function MockViteWebSocket(url, protocols) {
+              this.url = url || '';
+              this.protocol = Array.isArray(protocols) ? (protocols[0] || '') : (protocols || '');
+              this.readyState = 1;
+              this.CONNECTING = 0;
+              this.OPEN = 1;
+              this.CLOSING = 2;
+              this.CLOSED = 3;
+              this.binaryType = 'blob';
+              this.bufferedAmount = 0;
+              this.extensions = '';
+              this.listeners = {};
+              this.onopen = null;
+              this.onclose = null;
+              this.onerror = null;
+              this.onmessage = null;
+            }
+            MockViteWebSocket.prototype.CONNECTING = 0;
+            MockViteWebSocket.prototype.OPEN = 1;
+            MockViteWebSocket.prototype.CLOSING = 2;
+            MockViteWebSocket.prototype.CLOSED = 3;
+            MockViteWebSocket.prototype.addEventListener = function(type, listener) {
+              if (typeof listener !== 'function') return;
+              if (!this.listeners[type]) this.listeners[type] = [];
+              this.listeners[type].push(listener);
+              if (type === 'open') {
+                var self = this;
+                setTimeout(function() {
+                  try {
+                    listener.call(self, { type: 'open' });
+                    if (typeof self.onopen === 'function') self.onopen({ type: 'open' });
+                  } catch (e) {}
+                }, 0);
+              }
+            };
+            MockViteWebSocket.prototype.removeEventListener = function(type, listener) {
+              if (!this.listeners[type]) return;
+              this.listeners[type] = this.listeners[type].filter(function(l) { return l !== listener; });
+            };
+            MockViteWebSocket.prototype.dispatchEvent = function() {
+              return true;
+            };
+            MockViteWebSocket.prototype.send = function() {};
+            MockViteWebSocket.prototype.close = function() {
+              this.readyState = 3;
+            };
+
+            window.WebSocket = function(url, protocols) {
+              var isVite =
+                protocols === 'vite-hmr' ||
+                protocols === 'vite-ping' ||
+                (Array.isArray(protocols) && (protocols.indexOf('vite-hmr') !== -1 || protocols.indexOf('vite-ping') !== -1)) ||
+                (typeof url === 'string' && (url.indexOf('@vite/client') !== -1 || url.indexOf('vite-hmr') !== -1));
+
+              if (isVite) {
+                return new MockViteWebSocket(url, protocols);
+              }
+              return protocols !== undefined ? new OrigWebSocket(url, protocols) : new OrigWebSocket(url);
+            };
+            window.WebSocket.prototype = OrigWebSocket.prototype;
+            window.WebSocket.CONNECTING = 0;
+            window.WebSocket.OPEN = 1;
+            window.WebSocket.CLOSING = 2;
+            window.WebSocket.CLOSED = 3;
+          } catch (e) {}
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-stone-900 text-stone-900 antialiased selection:bg-purple-100 selection:text-purple-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
