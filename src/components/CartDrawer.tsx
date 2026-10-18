@@ -957,6 +957,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             orderText={confirmModalData.orderText}
             isDelivery={confirmModalData.isDelivery}
             onClose={() => setConfirmModalData(null)}
+            onSentOrder={() => {
+              onClearCart();
+              setConfirmModalData(null);
+              onClose();
+            }}
           />
         )}
       </div>

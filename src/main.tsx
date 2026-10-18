@@ -5,11 +5,17 @@ import { registerSW } from 'virtual:pwa-register';
 
 // Register service worker with instant update on change
 if ('serviceWorker' in navigator) {
-  registerSW({
+  const updateSW = registerSW({
     immediate: true,
     onNeedRefresh() {
-      window.location.reload();
+      updateSW(true);
     },
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      updateSW();
+    }
   });
 
   navigator.serviceWorker.addEventListener('controllerchange', () => {
