@@ -177,15 +177,31 @@
       {
         "id": "sobremesas-especiais",
         "name": "Sobremesas Especiais"
+      },
+      {
+        "id": "doces-caseiros",
+        "name": "Doces Caseiros"
+      },
+      {
+        "id": "sobremesas",
+        "name": "Sobremesas"
+      },
+      {
+        "id": "sobremesas-da-casa",
+        "name": "Sobremesas da Casa"
+      },
+      {
+        "id": "doces-e-tortas-gourmet",
+        "name": "Doces e Tortas Gourmet"
       }
     ],
     "version": 2,
-    "updatedAt": 1792324253895
+    "updatedAt": 1792397896749
   },
   "products": [
     {
       "id": "lanche-completo-faby",
-      "name": "Lanche Completo Faby Teste",
+      "name": "Completo da Faby",
       "categoryId": "lanches",
       "price": 1000,
       "description": "Pão bola, hambúrguer, ovo, mussarela, presunto, alface, tomate, cebola e molho especial.",
@@ -220,8 +236,8 @@
         "add-calabresa",
         "add-frango"
       ],
-      "photoUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
-      "updatedAt": 1792324253895,
+      "photoUrl": "/uploads/faby_1792397640302_ey5cw.jpg",
+      "updatedAt": 1792397642571,
       "isDrink": false
     },
     {
@@ -396,8 +412,9 @@
         "add-calabresa",
         "add-frango"
       ],
-      "photoUrl": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80",
-      "updatedAt": 1792292020016
+      "photoUrl": "/uploads/faby_1792397735528_0fe0g.jpg",
+      "updatedAt": 1792397737551,
+      "isDrink": false
     },
     {
       "id": "lanche-cachorro-quente",
@@ -759,6 +776,70 @@
       "allowedAdditionalIds": [],
       "order": 23,
       "photoUrl": "https://images.unsplash.com/photo-1517427294546-5aa121f68e8a?auto=format&fit=crop&w=600",
+      "isDrink": false
+    },
+    {
+      "id": "doce-brigadeiro",
+      "name": "Brigadeiro Gourmet",
+      "categoryId": "doces-caseiros",
+      "price": 450,
+      "description": "Feito com chocolate nobre.",
+      "available": true,
+      "updatedAt": 1792327889323,
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 23,
+      "photoUrl": "",
+      "isDrink": false
+    },
+    {
+      "name": "Açaí Especial na Tigela",
+      "categoryId": "sobremesas",
+      "price": 1800,
+      "description": "Açaí puro batido com banana, morango e granola crocante.",
+      "available": true,
+      "updatedAt": 1792328144860,
+      "id": "prod-mvdtwfks2986",
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 24,
+      "photoUrl": "",
+      "isDrink": false
+    },
+    {
+      "name": "Pudim de Leite Condensado",
+      "categoryId": "sobremesas-da-casa",
+      "price": 950,
+      "description": "Delicioso pudim caseiro com calda de caramelo especial da Faby",
+      "available": true,
+      "photoUrl": "https://images.unsplash.com/photo-1528975604071-b4dc52a2d18c?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792396742438,
+      "id": "prod-mveyqpsp1m5a",
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 25,
+      "isDrink": false
+    },
+    {
+      "name": "Torta Holandesa Especial da Faby",
+      "categoryId": "doces-e-tortas-gourmet",
+      "price": 1800,
+      "description": "Receita exclusiva da Faby com chocolate nobre e creme aveludado.",
+      "ingredients": [
+        "Biscoito Calipso",
+        "Creme holandês",
+        "Ganache de chocolate meio amargo"
+      ],
+      "removableIngredients": [],
+      "photoUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+      "available": true,
+      "updatedAt": 1792397138962,
+      "id": "prod-mveyz7r9nvld",
+      "allowedAdditionalIds": [],
+      "order": 26,
       "isDrink": false
     }
   ],

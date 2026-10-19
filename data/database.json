@@ -177,10 +177,26 @@
       {
         "id": "sobremesas-especiais",
         "name": "Sobremesas Especiais"
+      },
+      {
+        "id": "doces-caseiros",
+        "name": "Doces Caseiros"
+      },
+      {
+        "id": "sobremesas",
+        "name": "Sobremesas"
+      },
+      {
+        "id": "sobremesas-da-casa",
+        "name": "Sobremesas da Casa"
+      },
+      {
+        "id": "doces-e-tortas-gourmet",
+        "name": "Doces e Tortas Gourmet"
       }
     ],
     "version": 2,
-    "updatedAt": 1792324261364
+    "updatedAt": 1792397896749
   },
   "products": [
     {
@@ -220,8 +236,8 @@
         "add-calabresa",
         "add-frango"
       ],
-      "photoUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
-      "updatedAt": 1792324261364,
+      "photoUrl": "/uploads/faby_1792397640302_ey5cw.jpg",
+      "updatedAt": 1792397642571,
       "isDrink": false
     },
     {
@@ -396,8 +412,9 @@
         "add-calabresa",
         "add-frango"
       ],
-      "photoUrl": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80",
-      "updatedAt": 1792292020016
+      "photoUrl": "/uploads/faby_1792397735528_0fe0g.jpg",
+      "updatedAt": 1792397737551,
+      "isDrink": false
     },
     {
       "id": "lanche-cachorro-quente",
@@ -760,6 +777,70 @@
       "order": 23,
       "photoUrl": "https://images.unsplash.com/photo-1517427294546-5aa121f68e8a?auto=format&fit=crop&w=600",
       "isDrink": false
+    },
+    {
+      "id": "doce-brigadeiro",
+      "name": "Brigadeiro Gourmet",
+      "categoryId": "doces-caseiros",
+      "price": 450,
+      "description": "Feito com chocolate nobre.",
+      "available": true,
+      "updatedAt": 1792327889323,
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 23,
+      "photoUrl": "",
+      "isDrink": false
+    },
+    {
+      "name": "Açaí Especial na Tigela",
+      "categoryId": "sobremesas",
+      "price": 1800,
+      "description": "Açaí puro batido com banana, morango e granola crocante.",
+      "available": true,
+      "updatedAt": 1792328144860,
+      "id": "prod-mvdtwfks2986",
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 24,
+      "photoUrl": "",
+      "isDrink": false
+    },
+    {
+      "name": "Pudim de Leite Condensado",
+      "categoryId": "sobremesas-da-casa",
+      "price": 950,
+      "description": "Delicioso pudim caseiro com calda de caramelo especial da Faby",
+      "available": true,
+      "photoUrl": "https://images.unsplash.com/photo-1528975604071-b4dc52a2d18c?auto=format&fit=crop&w=600&q=80",
+      "updatedAt": 1792396742438,
+      "id": "prod-mveyqpsp1m5a",
+      "ingredients": [],
+      "removableIngredients": [],
+      "allowedAdditionalIds": [],
+      "order": 25,
+      "isDrink": false
+    },
+    {
+      "name": "Torta Holandesa Especial da Faby",
+      "categoryId": "doces-e-tortas-gourmet",
+      "price": 1800,
+      "description": "Receita exclusiva da Faby com chocolate nobre e creme aveludado.",
+      "ingredients": [
+        "Biscoito Calipso",
+        "Creme holandês",
+        "Ganache de chocolate meio amargo"
+      ],
+      "removableIngredients": [],
+      "photoUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+      "available": true,
+      "updatedAt": 1792397138962,
+      "id": "prod-mveyz7r9nvld",
+      "allowedAdditionalIds": [],
+      "order": 26,
+      "isDrink": false
     }
   ],
   "additionals": [
@@ -814,7 +895,7 @@
       "passwordSalt": "66e7e7b58d2caf60cb226a661943d2a6",
       "recoveryKey": "FABY-E28FFFA3",
       "createdAt": "2026-10-17T07:30:14.829Z",
-      "lastLoginAt": "2026-10-18T11:50:53.773Z"
+      "lastLoginAt": "2026-10-19T08:18:16.732Z"
     }
   ],
   "sessions": {
@@ -941,6 +1022,46 @@
     "183c71ae67931c02804747a044b60f1bd86f9ecfac0cd092606db7182ab87936": {
       "adminId": "admin-1",
       "expiresAt": 1797508253773
+    },
+    "8ddba53acdf9c6005b64b8fee9d928d9624709cb92ab2a2a6106e6d8269b6d92": {
+      "adminId": "admin-1",
+      "expiresAt": 1797511889279
+    },
+    "f8b8984bc218a90c8007d82ddd1d39fd0a0c9b2e0fa55f9c110d950726e2459d": {
+      "adminId": "admin-1",
+      "expiresAt": 1797512068368
+    },
+    "54c5d35aea1187112436a05eeeba36f6cc237dffe025c17ccb590eb680fff74e": {
+      "adminId": "admin-1",
+      "expiresAt": 1797580742399
+    },
+    "76f725ef8106c17d2b0f3ea0b20c9c8d338ba5c79f3d4e56cf26aba9d34d7bd4": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581138986
+    },
+    "eda0047cbc7ee06acb8bbf4325a2c9317c2935ce709acf83c20f9ef2c80ec457": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581556307
+    },
+    "2ba3b11affa0a2ecb9b441fdc9a0e1a639eead5e48b5d68e7678d79bba9085cd": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581863059
+    },
+    "4f48995e2efa72973c47ec6123ccc9af59fd8906e33853184a71069ba047915d": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581876747
+    },
+    "8103cb5c538c52de40e8b95bf1823b1c888ba55a0961ed0560ab795f92f86289": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581881759
+    },
+    "db8c57b5d54f8510e703fe1adce4ee9eba29c2f4b44e4a8f6474f4a0acc51eaf": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581890929
+    },
+    "0e3217325067b1f978576ebf27adcc7e116704cbe875c323e4c31b8f0e787171": {
+      "adminId": "admin-1",
+      "expiresAt": 1797581896732
     }
   }
 }

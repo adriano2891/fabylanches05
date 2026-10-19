@@ -347,13 +347,28 @@ class Database {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
         const parsed = JSON.parse(raw);
         // Ensure structure sanity
-        if (parsed.config && Array.isArray(parsed.products) && Array.isArray(parsed.additionals) && Array.isArray(parsed.admins)) {
-          // If database was empty for some reason, initialize with defaults
+        if (parsed && parsed.config && Array.isArray(parsed.products)) {
+          if (!Array.isArray(parsed.additionals) || parsed.additionals.length === 0) {
+            parsed.additionals = [...DEFAULT_ADDITIONALS];
+          }
           if (parsed.products.length === 0) {
             parsed.products = [...DEFAULT_PRODUCTS];
           }
-          if (parsed.additionals.length === 0) {
-            parsed.additionals = [...DEFAULT_ADDITIONALS];
+          if (!Array.isArray(parsed.admins) || parsed.admins.length === 0) {
+            const salt = crypto.randomBytes(16).toString('hex');
+            parsed.admins = [
+              {
+                id: "admin-1",
+                email: "admin@fabylanches.com",
+                passwordHash: hashPassword("admin", salt),
+                passwordSalt: salt,
+                recoveryKey: "FABY-ADMIN-KEY",
+                createdAt: new Date().toISOString()
+              }
+            ];
+          }
+          if (!parsed.sessions || typeof parsed.sessions !== 'object') {
+            parsed.sessions = {};
           }
           return parsed;
         }
@@ -392,9 +407,11 @@ class Database {
 
   private saveData(data: AppDatabase) {
     try {
-      const tempPath = DB_FILE + '.tmp';
-      fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf-8');
-      fs.renameSync(tempPath, DB_FILE);
+      this.ensureDataDirectory();
+      const serialized = JSON.stringify(data, null, 2);
+      
+      // Direct write to guaranteed location
+      fs.writeFileSync(DB_FILE, serialized, 'utf-8');
 
       // Keep public/api/menu.json and dist/api/menu.json synchronized
       try {
@@ -425,9 +442,12 @@ class Database {
           }
           fs.writeFileSync(path.join(distApiDir, 'menu.json'), JSON.stringify(payload, null, 2), 'utf-8');
         }
-      } catch {}
+      } catch (subErr) {
+        console.warn('Notice: Could not write secondary menu.json mirror:', subErr);
+      }
     } catch (e) {
       console.error("Error writing database file:", e);
+      throw new Error("Erro ao gravar dados no banco de dados.");
     }
   }
 
@@ -541,21 +561,30 @@ class Database {
     return updatedCategory;
   }
 
-  public removeCategory(catId: string): boolean {
+  public removeCategory(catId: string, options?: { reassignTo?: string; deleteProducts?: boolean }): boolean {
     const id = normalizeCategoryKey(catId);
     if (['lanches', 'cuscuz', 'sopas', 'bebidas', 'todos'].includes(id)) {
       throw new Error('Não é permitido remover categorias padrão do cardápio.');
-    }
-
-    const count = this.data.products.filter(p => normalizeCategoryKey(p.categoryId) === id).length;
-    if (count > 0) {
-      throw new Error(`Não é possível remover: existem ${count} produto(s) nesta categoria.`);
     }
 
     const currentCustom = parseCustomCategories(this.data.config.customCategories);
     const filtered = currentCustom.filter(c => c.id !== id);
 
     if (filtered.length !== currentCustom.length) {
+      if (options?.deleteProducts) {
+        // Delete all products in this category
+        this.data.products = this.data.products.filter(p => normalizeCategoryKey(p.categoryId) !== id);
+      } else {
+        // Reassign products to target category (default: 'lanches')
+        const targetCategory = options?.reassignTo ? normalizeCategoryKey(options.reassignTo) : 'lanches';
+        this.data.products.forEach(p => {
+          if (normalizeCategoryKey(p.categoryId) === id) {
+            p.categoryId = targetCategory;
+            p.updatedAt = Date.now();
+          }
+        });
+      }
+
       this.data.config.customCategories = filtered;
       this.data.config.updatedAt = Date.now();
       this.saveData(this.data);
@@ -614,6 +643,7 @@ class Database {
       order: targetOrder,
       photoUrl: (product.photoUrl || '').trim(),
       isDrink,
+      drinkDetails,
       updatedAt: Date.now(),
     };
 

@@ -19,9 +19,11 @@ export interface MenuDataResponse {
 
 // In-memory cache to guarantee instant synchronization across views
 let inMemoryCache: { config: StoreConfig; products: Product[]; additionals: Additional[] } | null = null;
+let activeFetchPromise: Promise<MenuDataResponse> | null = null;
 
 export function invalidateMenuCache() {
   inMemoryCache = null;
+  activeFetchPromise = null;
 }
 
 /**
@@ -126,11 +128,14 @@ export function getLocalMenuData(): { config: StoreConfig; products: Product[]; 
 /**
  * Save updated menu data to localStorage, IndexedDB and in-memory cache, and notify UI
  */
-export function saveLocalMenuData(data: {
-  config?: StoreConfig;
-  products?: Product[];
-  additionals?: Additional[];
-}) {
+export function saveLocalMenuData(
+  data: {
+    config?: StoreConfig;
+    products?: Product[];
+    additionals?: Additional[];
+  },
+  emitEvents: boolean = true
+) {
   const current = getLocalMenuData();
   const authoritativeCustom = data.config && data.config.customCategories !== undefined
     ? parseCustomCategories(data.config.customCategories)
@@ -166,18 +171,31 @@ export function saveLocalMenuData(data: {
   try {
     localStorage.setItem(LOCAL_MENU_DATA_KEY, JSON.stringify(updated));
   } catch (e) {
-    console.warn('LocalStorage quota or write warning (persisting in memory and IndexedDB):', e);
+    try {
+      const lightweight = {
+        ...updated,
+        products: updated.products.map((p) => ({
+          ...p,
+          photoUrl: p.photoUrl && p.photoUrl.startsWith('data:image') ? '' : p.photoUrl,
+        })),
+      };
+      localStorage.setItem(LOCAL_MENU_DATA_KEY, JSON.stringify(lightweight));
+    } catch {
+      console.warn('LocalStorage quota or write warning (persisting in memory and IndexedDB):', e);
+    }
   }
 
-  // Notify other windows/tabs and components about the data change
-  try {
-    window.dispatchEvent(new CustomEvent('faby_menu_updated', { detail: updated }));
-    if (typeof BroadcastChannel !== 'undefined') {
-      const bc = new BroadcastChannel('faby_menu_channel');
-      bc.postMessage({ type: 'menu_updated', updatedAt: updated.config.updatedAt });
-      bc.close();
-    }
-  } catch {}
+  // Notify other windows/tabs and components about the data change ONLY when requested
+  if (emitEvents) {
+    try {
+      window.dispatchEvent(new CustomEvent('faby_menu_updated', { detail: updated }));
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('faby_menu_channel');
+        bc.postMessage({ type: 'menu_updated', updatedAt: updated.config.updatedAt });
+        bc.close();
+      }
+    } catch {}
+  }
 
   return updated;
 }
@@ -201,12 +219,9 @@ export function updateLocalProduct(id: string, updates: Partial<Product>): Produ
     updatedProducts = [...current.products, newProd];
   }
 
-  saveLocalMenuData({ products: updatedProducts });
+  saveLocalMenuData({ products: updatedProducts }, true);
   return updatedProducts;
 }
-
-// In-flight fetch deduplication to prevent simultaneous duplicate requests
-let activeFetchPromise: Promise<MenuDataResponse> | null = null;
 
 /**
  * Fetch menu data from server with automatic seamless offline/Netlify fallback.
@@ -277,7 +292,7 @@ export async function fetchMenuDataWithFallback(): Promise<MenuDataResponse> {
               config: finalConfig,
               products: sortedProducts,
               additionals: finalAdditionals,
-            });
+            }, false); // Do not fire event to avoid triggering re-fetch loop
 
             return {
               config: finalConfig,
