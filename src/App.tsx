@@ -65,7 +65,7 @@ export default function App() {
 
   // Modal States
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAdminOpen, setIsAdminOpen] = useState<boolean>(true);
+  const [isAdminOpen, setIsAdminOpen] = useState<boolean>(false);
   const [customizingProduct, setCustomizingProduct] = useState<Product | null>(null);
   const [editingCartItem, setEditingCartItem] = useState<CartItem | null>(null);
   const [inquiryDrink, setInquiryDrink] = useState<Product | null>(null);
@@ -78,6 +78,13 @@ export default function App() {
 
   // Listen to popstate / hashchange for direct admin navigation
   useEffect(() => {
+    // Ensure default initial page is the cardápio (cleans up any previous /admin path)
+    if (typeof window !== 'undefined' && window.location.pathname.toLowerCase().includes('/admin')) {
+      try {
+        window.history.replaceState(null, '', '/');
+      } catch {}
+    }
+
     const handleUrlChange = () => {
       const path = window.location.pathname.toLowerCase();
       const search = window.location.search.toLowerCase();
