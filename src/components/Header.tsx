@@ -1,6 +1,6 @@
 import React from 'react';
 import { FabyLogo } from './FabyLogo.tsx';
-import { ShoppingBag, Shield } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { formatPrice } from '../utils/formatters.ts';
 
 interface HeaderProps {
@@ -47,19 +47,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right: Header Buttons (Admin & Cart) */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {onOpenAdmin && (
-            <button
-              onClick={onOpenAdmin}
-              title="Abrir Painel Administrativo"
-              aria-label="Abrir Painel Admin"
-              className="flex items-center gap-1 sm:gap-1.5 bg-purple-900/90 hover:bg-purple-800 text-amber-300 hover:text-amber-200 px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-xs font-bold border border-purple-700/60 shadow-xs transition active:scale-95 cursor-pointer"
-            >
-              <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
-              <span className="text-[11px] sm:text-xs font-bold">Admin</span>
-            </button>
-          )}
+        {/* Right: Header Cart Button */}
+        <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
 
           {/* Desktop/Tablet/Mobile Quick Cart trigger */}
           <button

@@ -6,7 +6,6 @@ interface WhatsAppConfirmModalProps {
   orderText: string;
   isDelivery: boolean;
   onClose: () => void;
-  onSentOrder?: () => void;
 }
 
 export const WhatsAppConfirmModal: React.FC<WhatsAppConfirmModalProps> = ({
@@ -14,18 +13,9 @@ export const WhatsAppConfirmModal: React.FC<WhatsAppConfirmModalProps> = ({
   orderText,
   isDelivery,
   onClose,
-  onSentOrder,
 }) => {
   const handleOpenWhatsApp = () => {
-    onSentOrder?.();
-    try {
-      const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      if (!win || win.closed || typeof win.closed === 'undefined') {
-        window.location.href = whatsappUrl;
-      }
-    } catch {
-      window.location.href = whatsappUrl;
-    }
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -94,7 +84,7 @@ export const WhatsAppConfirmModal: React.FC<WhatsAppConfirmModalProps> = ({
 
         <div className="px-5 py-3 bg-stone-50 border-t border-stone-100 text-center">
           <span className="text-[11px] text-stone-600">
-            Ao abrir o WhatsApp para enviar seu pedido, o carrinho será limpo automaticamente.
+            Seu carrinho continuará salvo no navegador para sua comodidade.
           </span>
         </div>
       </div>

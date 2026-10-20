@@ -327,10 +327,7 @@ app.post('/api/admin/categories', requireAdmin, (req: Request, res: Response) =>
 app.delete('/api/admin/categories/:id', requireAdmin, (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const reassignTo = (req.query.reassignTo as string) || req.body?.reassignTo || 'lanches';
-    const deleteProducts = req.query.deleteProducts === 'true' || req.body?.deleteProducts === true;
-
-    const success = dbInstance.removeCategory(id, { reassignTo, deleteProducts });
+    const success = dbInstance.removeCategory(id);
     if (!success) {
       return res.status(404).json({ error: 'Categoria não encontrada ou já removida.' });
     }
@@ -339,29 +336,6 @@ app.delete('/api/admin/categories/:id', requireAdmin, (req: Request, res: Respon
       success: true,
       categories: dbInstance.getCategories(),
       config: dbInstance.getConfig(),
-      products: dbInstance.getProducts(),
-    });
-  } catch (err: any) {
-    res.status(400).json({ error: err.message || 'Erro ao remover categoria.' });
-  }
-});
-
-app.post('/api/admin/categories/:id/delete', requireAdmin, (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const reassignTo = (req.query.reassignTo as string) || req.body?.reassignTo || 'lanches';
-    const deleteProducts = req.query.deleteProducts === 'true' || req.body?.deleteProducts === true;
-
-    const success = dbInstance.removeCategory(id, { reassignTo, deleteProducts });
-    if (!success) {
-      return res.status(404).json({ error: 'Categoria não encontrada ou já removida.' });
-    }
-    notifyClientsMenuUpdated('category_deleted', { id });
-    res.json({
-      success: true,
-      categories: dbInstance.getCategories(),
-      config: dbInstance.getConfig(),
-      products: dbInstance.getProducts(),
     });
   } catch (err: any) {
     res.status(400).json({ error: err.message || 'Erro ao remover categoria.' });

@@ -101,12 +101,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
 
-  // Product, Additional & Category Deletion Modals state (replaces window.confirm)
+  // Product & Additional Deletion Modals state (replaces window.confirm)
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [additionalToDelete, setAdditionalToDelete] = useState<Additional | null>(null);
-  const [categoryToDelete, setCategoryToDelete] = useState<{ id: string; name: string; productCount: number } | null>(null);
-  const [deleteCategoryAction, setDeleteCategoryAction] = useState<'move' | 'delete'>('move');
-  const [deleteCategoryTarget, setDeleteCategoryTarget] = useState<string>('lanches');
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Toast feedback state
@@ -432,7 +429,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       const data = await res.json();
       if (data.config) {
         setLocalConfig(data.config);
-        saveLocalMenuData({ config: data.config, products: data.products });
+        saveLocalMenuData({ config: data.config });
       }
       invalidateMenuCache();
       setEditingCategory(null);
@@ -447,63 +444,26 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
-  // Prompt to remove category - opens confirmation modal and allows reassigning or deleting products
-  const handlePromptRemoveCategory = (cat: { id: string; name: string }) => {
-    const normId = normalizeCategoryKey(cat.id);
-    const count = products.filter((p) => normalizeCategoryKey(p.categoryId) === normId).length;
-    // Choose fallback category: first one that is not this category and not 'todos', preferring 'lanches'
-    const fallback = allCategories.find((c) => c.id !== normId && c.id !== 'todos')?.id || 'lanches';
-    setDeleteCategoryTarget(fallback);
-    setDeleteCategoryAction('move');
-    setCategoryToDelete({ id: cat.id, name: cat.name, productCount: count });
-  };
-
-  // Confirm Category Deletion (supporting moving or deleting associated products)
-  const confirmDeleteCategory = async () => {
-    if (!categoryToDelete) return;
+  // Remove category with strict server confirmation
+  const handleRemoveCategory = async (catId: string) => {
+    const count = products.filter((p) => normalizeCategoryKey(p.categoryId) === catId).length;
+    if (count > 0) {
+      showToast(`Não é possível remover: existem ${count} produto(s) nesta categoria.`, 'error');
+      return;
+    }
 
     if (!authToken) {
       showToast('Faça login como administrador para remover categorias.', 'error');
       return;
     }
 
-    const { id: rawCatId, name: catName, productCount } = categoryToDelete;
-    const catId = normalizeCategoryKey(rawCatId);
     setIsRemovingCategory(catId);
-
     try {
       const apiBase = getApiBaseUrl();
-      const queryParams = new URLSearchParams({
-        reassignTo: deleteCategoryTarget,
-        deleteProducts: deleteCategoryAction === 'delete' ? 'true' : 'false',
-      });
-
-      let res = await fetch(`${apiBase}/api/admin/categories/${encodeURIComponent(catId)}?${queryParams.toString()}`, {
+      const res = await fetch(`${apiBase}/api/admin/categories/${encodeURIComponent(catId)}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({
-          reassignTo: deleteCategoryTarget,
-          deleteProducts: deleteCategoryAction === 'delete',
-        }),
+        headers: { Authorization: `Bearer ${authToken}` },
       });
-
-      if (!res.ok) {
-        // Fallback POST /delete
-        res = await fetch(`${apiBase}/api/admin/categories/${encodeURIComponent(catId)}/delete?${queryParams.toString()}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({
-            reassignTo: deleteCategoryTarget,
-            deleteProducts: deleteCategoryAction === 'delete',
-          }),
-        });
-      }
 
       if (!res.ok) {
         if (res.status === 401) {
@@ -516,9 +476,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         throw new Error(errData?.error || `Falha no servidor ao remover categoria (HTTP ${res.status})`);
       }
 
-      const resData = await res.json().catch(() => null);
-
-      const current = getLocalMenuData();
       const currentCustom = parseCustomCategories(localConfig?.customCategories);
       const updatedCustom = currentCustom.filter((c) => c.id !== catId);
       const updatedConfig: StoreConfig = {
@@ -527,41 +484,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         updatedAt: Date.now(),
       };
 
-      let updatedProducts = resData?.products ? [...resData.products] : [...current.products];
-      if (!resData?.products) {
-        if (deleteCategoryAction === 'delete') {
-          updatedProducts = updatedProducts.filter((p) => normalizeCategoryKey(p.categoryId) !== catId);
-        } else {
-          updatedProducts = updatedProducts.map((p) => {
-            if (normalizeCategoryKey(p.categoryId) === catId) {
-              return { ...p, categoryId: deleteCategoryTarget, updatedAt: Date.now() };
-            }
-            return p;
-          });
-        }
-      }
-
       setLocalConfig(updatedConfig);
-      saveLocalMenuData({ config: updatedConfig, products: updatedProducts });
+      saveLocalMenuData({ config: updatedConfig });
       invalidateMenuCache();
 
       if (adminCategoryFilter === catId) {
         setAdminCategoryFilter('todos');
       }
-
-      setCategoryToDelete(null);
       await onRefreshData();
-
-      if (productCount > 0) {
-        if (deleteCategoryAction === 'delete') {
-          showToast(`Categoria "${catName}" e ${productCount} produto(s) excluídos com sucesso!`, 'success');
-        } else {
-          const targetName = allCategories.find((c) => c.id === deleteCategoryTarget)?.name || deleteCategoryTarget;
-          showToast(`Categoria "${catName}" excluída e ${productCount} produto(s) movido(s) para "${targetName}"!`, 'success');
-        }
-      } else {
-        showToast(`Categoria "${catName}" removida com sucesso!`, 'success');
-      }
+      showToast('Categoria removida do banco de dados com sucesso!', 'success');
     } catch (err: any) {
       showToast(`Erro ao remover categoria: ${err.message}`, 'error');
     } finally {
@@ -858,8 +789,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         return;
       }
 
-      const apiBase = getApiBaseUrl();
-      fetch(`${apiBase}/api/admin/me`, {
+      fetch('/api/admin/me', {
         headers: { Authorization: `Bearer ${authToken}` },
       })
         .then((res) => {
@@ -911,10 +841,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     try {
       let loggedIn = false;
       try {
-        const apiBase = getApiBaseUrl();
         const cleanEmail = loginEmail.trim();
         const cleanPassword = loginPassword.trim();
-        const res = await fetch(`${apiBase}/api/admin/login`, {
+        const res = await fetch('/api/admin/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: cleanEmail, password: cleanPassword }),
@@ -965,8 +894,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const handleLogout = async () => {
     if (authToken) {
       try {
-        const apiBase = getApiBaseUrl();
-        await fetch(`${apiBase}/api/admin/logout`, {
+        await fetch('/api/admin/logout', {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}` },
         });
@@ -987,8 +915,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     try {
       let resetDone = false;
       try {
-        const apiBase = getApiBaseUrl();
-        const res = await fetch(`${apiBase}/api/admin/reset-password`, {
+        const res = await fetch('/api/admin/reset-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ recoveryKey, newPassword: newRecoveryPassword }),
@@ -2489,7 +2416,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                                   type="button"
                                   disabled={isRemovingCategory === cat.id}
                                   title={`Remover categoria "${cat.name}"`}
-                                  onClick={() => handlePromptRemoveCategory(cat)}
+                                  onClick={() => handleRemoveCategory(cat.id)}
                                   className="p-0.5 text-stone-400 hover:text-rose-600 hover:bg-rose-50 rounded transition cursor-pointer disabled:opacity-50"
                                 >
                                   {isRemovingCategory === cat.id ? (
@@ -3464,8 +3391,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           try {
                             let changed = false;
                             try {
-                              const apiBase = getApiBaseUrl();
-                              const res = await fetch(`${apiBase}/api/admin/change-password`, {
+                              const res = await fetch('/api/admin/change-password', {
                                 method: 'POST',
                                 headers: {
                                   'Content-Type': 'application/json',
@@ -3670,143 +3596,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 >
                   <Trash2 className="w-4 h-4" />
                   <span>{isDeleting ? 'Removendo...' : 'Sim, Remover'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Modal de Confirmação para Remover Categoria */}
-        {categoryToDelete && (
-          <div className="fixed inset-0 z-[70] bg-stone-950/80 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 space-y-4 animate-in fade-in zoom-in-95 duration-150 text-stone-800">
-              <div className="w-14 h-14 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto border-4 border-rose-50 shadow-inner">
-                <Trash2 className="w-7 h-7" />
-              </div>
-
-              <div className="text-center space-y-2">
-                <h4 className="text-lg font-black text-stone-900">
-                  Excluir Categoria "{categoryToDelete.name}"?
-                </h4>
-                {categoryToDelete.productCount === 0 ? (
-                  <p className="text-sm text-stone-600 leading-relaxed">
-                    Tem certeza de que deseja remover permanentemente a categoria <strong>"{categoryToDelete.name}"</strong>? Não há nenhum produto associado a ela.
-                  </p>
-                ) : (
-                  <div className="text-left space-y-3 pt-1">
-                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2.5 text-xs text-amber-900">
-                      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                      <div className="leading-snug">
-                        Esta categoria possui <strong>{categoryToDelete.productCount} produto(s)</strong> cadastrado(s).
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-stone-700 block">
-                        O que você deseja fazer com esses produtos?
-                      </label>
-
-                      {/* Opção 1: Mover produtos */}
-                      <label
-                        className={`flex items-start gap-2.5 p-3 rounded-xl border cursor-pointer transition ${
-                          deleteCategoryAction === 'move'
-                            ? 'bg-purple-50/70 border-purple-300 ring-1 ring-purple-400/40'
-                            : 'bg-stone-50 border-stone-200 hover:bg-stone-100'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="deleteCatAction"
-                          checked={deleteCategoryAction === 'move'}
-                          onChange={() => setDeleteCategoryAction('move')}
-                          className="mt-0.5 text-purple-700 focus:ring-purple-500"
-                        />
-                        <div className="space-y-1.5 flex-1 min-w-0">
-                          <span className="text-xs font-bold text-stone-900 block leading-tight">
-                            Mover produtos para outra categoria (Recomendado)
-                          </span>
-                          <span className="text-[11px] text-stone-500 block leading-tight">
-                            Os produtos serão mantidos no cardápio, apenas transferidos de categoria.
-                          </span>
-
-                          {deleteCategoryAction === 'move' && (
-                            <div className="pt-1">
-                              <label className="text-[11px] font-semibold text-stone-600 block mb-1">
-                                Selecione a nova categoria:
-                              </label>
-                              <select
-                                value={deleteCategoryTarget}
-                                onChange={(e) => setDeleteCategoryTarget(e.target.value)}
-                                className="w-full text-xs font-bold bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                              >
-                                {allCategories
-                                  .filter((c) => c.id !== normalizeCategoryKey(categoryToDelete.id) && c.id !== 'todos')
-                                  .map((c) => (
-                                    <option key={c.id} value={c.id}>
-                                      {c.name}
-                                    </option>
-                                  ))}
-                              </select>
-                            </div>
-                          )}
-                        </div>
-                      </label>
-
-                      {/* Opção 2: Excluir produtos junto */}
-                      <label
-                        className={`flex items-start gap-2.5 p-3 rounded-xl border cursor-pointer transition ${
-                          deleteCategoryAction === 'delete'
-                            ? 'bg-rose-50/70 border-rose-300 ring-1 ring-rose-400/40'
-                            : 'bg-stone-50 border-stone-200 hover:bg-stone-100'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="deleteCatAction"
-                          checked={deleteCategoryAction === 'delete'}
-                          onChange={() => setDeleteCategoryAction('delete')}
-                          className="mt-0.5 text-rose-600 focus:ring-rose-500"
-                        />
-                        <div className="space-y-0.5 flex-1 min-w-0">
-                          <span className="text-xs font-bold text-rose-900 block leading-tight">
-                            Excluir também todos os {categoryToDelete.productCount} produto(s)
-                          </span>
-                          <span className="text-[11px] text-rose-600/80 block leading-tight">
-                            Atenção: Os produtos associados a esta categoria serão apagados do cardápio permanentemente.
-                          </span>
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center gap-3 pt-3">
-                <button
-                  type="button"
-                  disabled={isRemovingCategory === categoryToDelete.id}
-                  onClick={() => setCategoryToDelete(null)}
-                  className="flex-1 py-2.5 rounded-xl border border-stone-300 hover:bg-stone-100 text-stone-700 font-bold text-xs sm:text-sm transition cursor-pointer"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="button"
-                  disabled={isRemovingCategory === categoryToDelete.id}
-                  onClick={confirmDeleteCategory}
-                  className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-black text-xs sm:text-sm transition cursor-pointer shadow-md flex items-center justify-center gap-2"
-                >
-                  {isRemovingCategory === categoryToDelete.id ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Excluindo...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Trash2 className="w-4 h-4" />
-                      <span>{categoryToDelete.productCount > 0 ? 'Confirmar e Excluir' : 'Sim, Excluir'}</span>
-                    </>
-                  )}
                 </button>
               </div>
             </div>
