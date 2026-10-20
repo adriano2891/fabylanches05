@@ -42,11 +42,7 @@ export function getApiBaseUrl(): string {
     return envUrl.trim().replace(/\/+$/, '');
   }
 
-  // When loaded on Netlify, automatically route API requests to the active server
-  if (typeof window !== 'undefined' && window.location.hostname.includes('netlify.app')) {
-    return 'https://ais-dev-jel7ucarr3gr64ffyhtzvg-659789405327.us-east1.run.app';
-  }
-
+  // Default to same-origin relative paths (supports localhost, Netlify Functions, and any domain)
   return '';
 }
 

@@ -1,3 +1,5 @@
+import { getApiBaseUrl } from './menuStorage.ts';
+
 /**
  * Utility for formatting product image URLs with automatic cache-busting
  * Prevents stale browser / CDN / Service Worker caching on desktop and mobile.
@@ -32,10 +34,17 @@ export function getProductImageUrl(
   }
 
   const v = updatedAt && Number(updatedAt) > 0 ? String(updatedAt) : 'v1';
+  const apiBase = getApiBaseUrl();
+
+  // If it's an uploaded relative path and an external apiBase is configured, prepend apiBase
+  let targetUrl = clean;
+  if (clean.startsWith('/uploads/') && apiBase) {
+    targetUrl = `${apiBase}${clean}`;
+  }
 
   try {
-    if (clean.includes('images.unsplash.com')) {
-      const u = new URL(clean);
+    if (targetUrl.includes('images.unsplash.com')) {
+      const u = new URL(targetUrl);
       const width = size === 'thumbnail' ? '300' : size === 'medium' ? '500' : '900';
       const quality = size === 'thumbnail' ? '75' : size === 'medium' ? '80' : '85';
       u.searchParams.set('w', width);
@@ -46,19 +55,19 @@ export function getProductImageUrl(
       return u.toString();
     }
 
-    if (clean.startsWith('http://') || clean.startsWith('https://')) {
-      const u = new URL(clean);
+    if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
+      const u = new URL(targetUrl);
       u.searchParams.set('v', v);
       return u.toString();
     }
 
     // Relative path (like /uploads/photo.jpg)
-    const [pathPart, queryPart] = clean.split('?');
+    const [pathPart, queryPart] = targetUrl.split('?');
     const params = new URLSearchParams(queryPart || '');
     params.set('v', v);
     return `${pathPart}?${params.toString()}`;
   } catch {
-    return clean;
+    return targetUrl;
   }
 }
 
@@ -90,7 +99,8 @@ export async function clearProductImageCaches(): Promise<void> {
           key.includes('product-images') ||
           key.includes('api-menu') ||
           key.includes('menu') ||
-          key.includes('images')
+          key.includes('images') ||
+          key.includes('workbox')
         ) {
           await window.caches.delete(key);
         }

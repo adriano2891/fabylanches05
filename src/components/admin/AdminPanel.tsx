@@ -643,53 +643,44 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           let finalUrl = optimizedBase64;
           if (authToken) {
             const apiBase = getApiBaseUrl();
-            const isStaticHost =
-              !apiBase &&
-              (typeof window !== 'undefined' &&
-                (window.location.hostname.includes('netlify.app') ||
-                  window.location.hostname.includes('github.io') ||
-                  window.location.hostname.includes('vercel.app')));
+            const abortCtrl = new AbortController();
+            const fetchTimeout = setTimeout(() => abortCtrl.abort(), 15000);
 
-            if (!isStaticHost) {
-              const abortCtrl = new AbortController();
-              const fetchTimeout = setTimeout(() => abortCtrl.abort(), 10000);
+            try {
+              const res = await fetch(`${apiBase}/api/admin/upload-photo`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${authToken}`,
+                },
+                body: JSON.stringify({
+                  imageData: optimizedBase64,
+                  filename: file.name || 'foto_produto.jpg',
+                }),
+                signal: abortCtrl.signal,
+              });
+              clearTimeout(fetchTimeout);
 
-              try {
-                const res = await fetch(`${apiBase}/api/admin/upload-photo`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authToken}`,
-                  },
-                  body: JSON.stringify({
-                    imageData: optimizedBase64,
-                    filename: file.name || 'foto_produto.jpg',
-                  }),
-                  signal: abortCtrl.signal,
-                });
-                clearTimeout(fetchTimeout);
+              const contentType = res.headers.get('content-type') || '';
+              const isJson = contentType.includes('application/json');
 
-                const contentType = res.headers.get('content-type') || '';
-                const isJson = contentType.includes('application/json');
-
-                if (res.ok && isJson) {
-                  const data = await res.json();
-                  if (data.url) {
-                    finalUrl = data.url;
-                  }
-                } else if (res.status === 401 && isJson) {
-                  showToast('Sessão expirada. Faça login novamente.', 'error');
-                  isSettled = true;
-                  finishAndClean();
-                  resolve(null);
-                  return;
-                } else {
-                  finalUrl = optimizedBase64;
+              if (res.ok && isJson) {
+                const data = await res.json();
+                if (data.url) {
+                  finalUrl = data.url;
                 }
-              } catch {
-                clearTimeout(fetchTimeout);
+              } else if (res.status === 401 && isJson) {
+                showToast('Sessão expirada. Faça login novamente.', 'error');
+                isSettled = true;
+                finishAndClean();
+                resolve(null);
+                return;
+              } else {
                 finalUrl = optimizedBase64;
               }
+            } catch {
+              clearTimeout(fetchTimeout);
+              finalUrl = optimizedBase64;
             }
           }
 
@@ -764,67 +755,58 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
       let savedProduct: Product | null = null;
       const apiBase = getApiBaseUrl();
-      const isStaticHost =
-        !apiBase &&
-        (typeof window !== 'undefined' &&
-          (window.location.hostname.includes('netlify.app') ||
-            window.location.hostname.includes('github.io') ||
-            window.location.hostname.includes('vercel.app')));
+      const abortCtrl = new AbortController();
+      const saveTimeoutId = setTimeout(() => abortCtrl.abort(), 15000);
 
-      if (!isStaticHost) {
-        const abortCtrl = new AbortController();
-        const saveTimeoutId = setTimeout(() => abortCtrl.abort(), 10000);
+      try {
+        const res = await fetch(`${apiBase}/api/admin/products/${encodeURIComponent(product.id)}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({
+            ...product,
+            photoUrl: uploadedUrl,
+            updatedAt: now,
+          }),
+          signal: abortCtrl.signal,
+        });
+        clearTimeout(saveTimeoutId);
 
-        try {
-          const res = await fetch(`${apiBase}/api/admin/products/${encodeURIComponent(product.id)}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${authToken}`,
-            },
-            body: JSON.stringify({
-              ...product,
-              photoUrl: uploadedUrl,
-              updatedAt: now,
-            }),
-            signal: abortCtrl.signal,
-          });
-          clearTimeout(saveTimeoutId);
+        const contentType = res.headers.get('content-type') || '';
+        const isJson = contentType.includes('application/json');
 
-          const contentType = res.headers.get('content-type') || '';
-          const isJson = contentType.includes('application/json');
-
-          if (res.status === 401 && isJson) {
-            showToast('Sessão expirada. Faça login novamente.', 'error');
-            return;
-          }
-
-          if (res.ok && isJson) {
-            savedProduct = await res.json().catch(() => null);
-          } else if (res.status === 404 || res.status === 405) {
-            // Attempt fallback to POST /api/admin/products with ID
-            try {
-              const fallbackRes = await fetch(`${apiBase}/api/admin/products`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${authToken}`,
-                },
-                body: JSON.stringify({
-                  ...product,
-                  photoUrl: uploadedUrl,
-                  updatedAt: now,
-                }),
-              });
-              if (fallbackRes.ok && fallbackRes.headers.get('content-type')?.includes('application/json')) {
-                savedProduct = await fallbackRes.json().catch(() => null);
-              }
-            } catch {}
-          }
-        } catch (netErr: any) {
-          clearTimeout(saveTimeoutId);
-          console.warn('Backend sync failed for photo upload, saving locally:', netErr);
+        if (res.status === 401 && isJson) {
+          showToast('Sessão expirada. Faça login novamente.', 'error');
+          return;
         }
+
+        if (res.ok && isJson) {
+          savedProduct = await res.json().catch(() => null);
+        } else if (res.status === 404 || res.status === 405) {
+          // Attempt fallback to POST /api/admin/products with ID
+          try {
+            const fallbackRes = await fetch(`${apiBase}/api/admin/products`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authToken}`,
+              },
+              body: JSON.stringify({
+                ...product,
+                photoUrl: uploadedUrl,
+                updatedAt: now,
+              }),
+            });
+            if (fallbackRes.ok && fallbackRes.headers.get('content-type')?.includes('application/json')) {
+              savedProduct = await fallbackRes.json().catch(() => null);
+            }
+          } catch {}
+        }
+      } catch (netErr: any) {
+        clearTimeout(saveTimeoutId);
+        console.warn('Backend sync failed for photo upload:', netErr);
       }
 
       if (!savedProduct || !savedProduct.id) {

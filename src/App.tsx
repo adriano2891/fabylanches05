@@ -239,13 +239,6 @@ export default function App() {
       if (document.visibilityState !== 'visible') return;
       try {
         const apiBase = getApiBaseUrl();
-        const isStaticHost =
-          !apiBase &&
-          (window.location.hostname.includes('netlify.app') ||
-            window.location.hostname.includes('github.io') ||
-            window.location.hostname.includes('vercel.app'));
-        if (isStaticHost) return;
-
         const res = await fetch(`${apiBase}/api/sync/version?_t=${Date.now()}`, {
           cache: 'no-store',
           headers: {

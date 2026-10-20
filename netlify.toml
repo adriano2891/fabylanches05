@@ -3,6 +3,10 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # HTML entry point: Always revalidate to receive new app versions immediately
 [[headers]]
   for = "/"
@@ -39,11 +43,20 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# API menu endpoints: Edge revalidation (no-cache max-age=0 with ETag support)
+# API menu endpoints: Never cache dynamic API responses
 [[headers]]
   for = "/api/*"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+    Access-Control-Allow-Origin = "*"
+
+# Uploaded product photos: Immutable per unique timestamp/hash
+[[headers]]
+  for = "/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
     Access-Control-Allow-Origin = "*"
 
 # Static logo and icon images: Fast cache with background revalidation
@@ -57,21 +70,16 @@
   [headers.values]
     Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
 
-# Uploaded product photos (have unique timestamps and ?v= params): Fast cache with revalidation
-[[headers]]
-  for = "/uploads/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
-
+# Netlify Serverless API & Uploads Routing
 [[redirects]]
-  from = "/api/menu"
-  to = "/api/menu.json"
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/api/menu/"
-  to = "/api/menu.json"
+  from = "/uploads/*"
+  to = "/.netlify/functions/api/uploads/:splat"
   status = 200
   force = true
 
